@@ -1,46 +1,14 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-	<title>Main</title>
-	<meta http-equiv="Content-type" content="text/html;charset-UTF-8" />
-	<meta name="format-detection" content="telephone-no">
-	<meta http-equiv="X-UA-Compatible" content="IE-edge">
-	<link rel="stylesheet" href="css/nullstyle.css">
-	<link rel="stylesheet" href="css/style.css">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scale=0"/> 
-</head>	
+    <title>URL Checker</title>
+</head>
 <body>
-	<div class="wrapper">
-		<header>
-			<div class="container">
-				
-			</div>
-		</header>
-
-
-		<div class="mainblock">
-			<div class="container">
-				<form action="/parse-text" method="get">
-				<input type="text" id="#" name="username" placeholder="Enter">
-				<button type="submit">submit</button>
-				</form>
-				<style>
-					input { border:2px solid #000; }
-				</style>
-
-			</div>
-		</div>
-
-
-		<footer>
-			<div class="container">
-
-			</div>
-		</footer>	
-	</div>	
-	
-	<script src="js/script.js"></script>
-	
+    <h1>Enter URL to check</h1>
+    <form action="/parse-text" method="get">
+        <input type="text" name="url" placeholder="Enter URL here" required style="width:300px;">
+        <button type="submit">CHECK</button>
+    </form>
 </body>
 </html>
+
