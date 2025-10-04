@@ -2,9 +2,9 @@ from typing import Union
 
 from fastapi import FastAPI
 
-from starlette.responses import FileResponse
+from starlette.responses import FileResponse, JSONResponse
 
-import parser
+import parser, summeryBot
 
 app = FastAPI()
 
@@ -14,4 +14,8 @@ def read_root():
 
 @app.get("/parse-text")
 def status(url: str):
-    return parser.grab_text_from_url(url)
+    return JSONResponse()
+
+@app.get("/summarize")
+def summarize(newsText: str):
+    return summeryBot.summary(newsText)
