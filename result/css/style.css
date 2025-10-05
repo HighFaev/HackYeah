@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 .pts {
   font-family: "";
@@ -141,65 +142,83 @@
   margin: 10px 0;
 }
 
-.gauge {
-  width: 200px;
-  height: 100px;
+.pie {
+  --p: 80;
+  --b: 20px;
+  --w: 150px;
+  --c: #5AE56B;
+  --f: #d21f1f;
+  color: #fff;
+  width: var(--w);
+  aspect-ratio: 1;
   position: relative;
-}
-
-.gauge__body {
-  width: 100%;
-  height: 100%;
-  background: #76c7c0;
-  border-radius: 100px 100px 0 0;
-  overflow: hidden;
-  position: relative;
-}
-.gauge__body.low {
-  background: #F73939;
-}
-.gauge__body.medium {
-  background: #FFD53F;
-}
-
-.gauge__fill {
-  width: 100%;
-  height: 100%;
-  background: #171746;
-  -webkit-transform-origin: center bottom;
-          transform-origin: center bottom;
-  -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
-  -webkit-transition: -webkit-transform 0.3s ease-in-out;
-  transition: -webkit-transform 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
-}
-
-.gauge__cover {
-  font-size: 16px;
+  display: -ms-inline-grid;
+  display: inline-grid;
+  margin: 5px;
+  place-content: center;
+  font-size: 28px;
   font-weight: bold;
-  color: #fff;
-  text-align: center;
-  margin-top: 15px;
+  font-family: sans-serif;
+  margin-bottom: 19px;
 }
 
-.gauge__result {
-  color: #fff;
+.pie_result {
   font-size: 16px;
+  color: #fff;
   text-align: center;
-  margin-top: 15px;
-}
-.gauge__result.low {
-  color: #F73939;
-}
-.gauge__result.medium {
-  color: #FFD53F;
-}
-.gauge__result.high {
-  color: #76c7c0;
 }
 
+.pie:before,
+.pie:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.pie:before {
+  inset: 0;
+  background: radial-gradient(farthest-side, var(--c) 98%, rgba(0, 0, 0, 0)) top/var(--b) var(--b) no-repeat, conic-gradient(var(--c) calc(var(--p) * 1%), var(--f) 0);
+  -webkit-mask: radial-gradient(farthest-side, rgba(0, 0, 0, 0) calc(99% - var(--b)), #000 calc(100% - var(--b)));
+          mask: radial-gradient(farthest-side, rgba(0, 0, 0, 0) calc(99% - var(--b)), #000 calc(100% - var(--b)));
+}
+
+.pie:after {
+  inset: calc(50% - var(--b) / 2);
+  background: var(--c);
+  -webkit-transform: rotate(calc(var(--p) * 3.6deg)) translateY(calc(50% - var(--w) / 2));
+          transform: rotate(calc(var(--p) * 3.6deg)) translateY(calc(50% - var(--w) / 2));
+}
+
+.no-round:before {
+  background-size: 0 0, auto;
+}
+
+.no-round:after {
+  content: none;
+}
+
+/* Анимация */
+@property --p {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+.pieanimate {
+  -webkit-animation: p 1s 0.5s both;
+          animation: p 1s 0.5s both;
+}
+
+@-webkit-keyframes p {
+  from {
+    --p:0;
+  }
+}
+
+@keyframes p {
+  from {
+    --p:0;
+  }
+}
 body {
   font-family: "Montserrat";
   background-color: #0D0D2B;
@@ -341,7 +360,8 @@ header {
 }
 .colums__facts {
   max-width: 700px;
-  padding: 40px 30px;
+  padding: 50px 30px;
+  padding-bottom: 40px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -352,11 +372,27 @@ header {
   background-color: #1A1A4E;
   border-radius: 53px;
 }
+.colums__facts > div:before {
+  content: "";
+  position: absolute;
+  background: url("../img/Group 8.svg") no-repeat;
+  background-size: 20px 30px;
+  width: 20px;
+  height: 25px;
+  top: -35px;
+  left: 49%;
+}
+.colums__facts > div:last-child:before {
+  background: url("../img/Group 9.svg") no-repeat;
+  background-size: 14px 24px;
+  width: 14px;
+  height: 24px;
+}
 @media (max-width: 1190px) {
   .colums__facts {
     max-width: 1000px;
     margin-bottom: 25px;
-    padding: 30px 20px;
+    padding: 40px 20px;
   }
 }
 @media (max-width: 767.98px) {
@@ -364,18 +400,32 @@ header {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
   }
+  .colums__facts > div:first-child {
+    margin-bottom: 50px;
+  }
 }
 @media (max-width: 630px) {
   .colums__facts {
-    padding: 25px 10px;
+    padding: 35px 10px;
+    padding-bottom: 15px;
+  }
+  .colums__facts > div:first-child {
+    margin-bottom: 40px;
   }
 }
 
 .facts__item {
+  position: relative;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 50%;
+          flex: 0 1 50%;
   margin: 10px;
 }
 @media (max-width: 767.98px) {
   .facts__item {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 100%;
+            flex: 0 1 100%;
     width: 100%;
   }
 }

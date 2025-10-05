@@ -144,59 +144,62 @@ $fontfamily: "Montserrat";
 
 
 //</==============================================================================
-
-.gauge {
-  width: 200px;
-  height: 100px;
-  position: relative;
+.pie {
+    --p: 80;
+    --b: 20px;
+    --w: 150px;
+    --c: #5AE56B;    
+    --f: #d21f1f;
+    color: #fff;
+    width: var(--w);
+    aspect-ratio: 1;
+    position: relative;
+    display: inline-grid;
+    margin: 5px;
+    place-content: center;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: sans-serif;
+	margin-bottom: 19px;
 }
-
-.gauge__body {
-  width: 100%;
-  height: 100%;
-  background: #76c7c0;
-  border-radius: 100px 100px 0 0;
-  overflow: hidden;
-  position: relative;
-	&.low{
-		background: #F73939;
-	}
-	&.medium{
-		background: #FFD53F;
-	}
-}
-
-.gauge__fill {
-  width: 100%;
-  height: 100%;
-  background: #171746;
-  transform-origin: center bottom;
-  transform: rotate(0deg);
-  transition: transform 0.3s ease-in-out;
-}
-
-.gauge__cover {
+.pie_result {
 	font-size: 16px;
-	font-weight: bold;
 	color: #fff;
 	text-align: center;
-	margin-top: 15px;
 }
-.gauge__result {
-	color: #fff;
-	font-size: 16px;
-	text-align: center;
-	margin-top: 15px;
-	&.low{
-		color: #F73939;
-	}
-	&.medium{
-		color: #FFD53F;
-	}
-	&.high{
-		color: #76c7c0;
-	}
-
+.pie:before,
+.pie:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+.pie:before {
+    inset: 0;
+    background: radial-gradient(farthest-side, var(--c) 98%, #0000) top/var(--b) var(--b) no-repeat, conic-gradient(var(--c) calc(var(--p) * 1%), var(--f) 0);
+    mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+}
+.pie:after {
+    inset: calc(50% - var(--b) / 2);
+    background: var(--c);
+    transform: rotate(calc(var(--p) * 3.6deg)) translateY(calc(50% - var(--w) / 2));
+}
+.no-round:before {
+    background-size:0 0,auto;
+}
+.no-round:after {
+    content:none;
+}
+/* Анимация */
+@property --p{
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+}
+.pieanimate {
+    animation: p 1s .5s both;
+}
+@keyframes p {
+    from{--p:0}
 }
 //</Body modifications>===========================================================
 body{
@@ -317,28 +320,59 @@ header{
 .colums {
 	&__facts {
 		max-width: 700px;
-		padding: 40px 30px;
+		padding: 50px 30px;
+		padding-bottom: 40px;
 		@include flexbox();
 		justify-content: space-between;
 		background-color: #1A1A4E;
 		border-radius: 53px;
+		&>div{
+			&:before{
+			content: '';
+			position: absolute;
+			background: url('../img/Group 8.svg') no-repeat;
+			background-size: 20px 30px;
+			width: 20px;
+			height: 25px;
+			top: -35px;
+			left: 49%;
+			}
+		}
+		&>div:last-child {
+			&:before{
+				background: url('../img/Group\ 9.svg') no-repeat;
+				background-size: 14px 24px;
+				width: 14px;
+				height: 24px;
+			}
+		}
 		@media(max-width:$md1+px){
 			max-width: 1000px;
 			margin-bottom: 25px;	
-			padding: 30px 20px;
+			padding: 40px 20px;
 		}
 		@media(max-width:$md3+px){
+			&>div:first-child{
+				margin-bottom: 50px;
+			}
 			flex-wrap: wrap;	
 		}
 		@media(max-width:630px){
-			padding: 25px 10px;
+			padding: 35px 10px;
+			padding-bottom: 15px;
+			&>div:first-child{
+				margin-bottom: 40px;
+			}
 		}
 	}
 }
 .facts {
 	&__item {
+		position: relative;
+		flex: 0 1 50%;
 		margin: 10px;
 		@media(max-width:$md3+px){
+			flex: 0 1 100%;
 			width: 100%;	
 		}
 	}

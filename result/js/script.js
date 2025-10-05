@@ -172,36 +172,34 @@ function getResultData() {
             }, 1500); // Symulacja opóźnienia ładowania
         });
 //<======================================================================================
+let value = 60;
+const val1 = "jjjj";
+const val2 = "j222";
+const val3 = "j333";
 
-function setGaugeValue(gauge, value) {
+document.getElementById("resSum").innerHTML = val1;
+document.getElementById("true").innerHTML = val2;
+document.getElementById("notTrue").innerHTML = val3;
+
+function setGaugeValue(pie, value) {
+  pie.style.setProperty('--p', value);
+
   if (value < 0) value = 0;
   if (value > 100) value = 100;
 
-  const result = document.querySelector(".gauge__result");
-  const body = document.querySelector(".gauge__body");
+  const result = document.querySelector(".pie_result");
 
   if (value <= 30) {
-      result.classList.toggle('low'); // Red
-      body.classList.toggle('low');
       result.textContent = "it is a fake";
     } else if (value <= 69) {
-      result.classList.toggle('medium'); // Yellow
-      body.classList.toggle('medium');
       result.textContent = "it is probably a fake";
     } else {
-      result.classList.toggle('high'); // Green
-      body.classList.toggle('high');
       result.textContent = "it is probably a true";
     }
 
-  const fill = gauge.querySelector(".gauge__fill");
-  const cover = gauge.querySelector(".gauge__cover");
-
-  const rotation = (value / 100) * 180; // Convert percentage to degrees
-  fill.style.transform = `rotate(${rotation}deg)`;
-  cover.innerHTML = `${value}%`;
+  pie.innerHTML = `${value}%`;
 }
 
 // Example usage
-const gauge = document.querySelector(".gauge");
-setGaugeValue(gauge, 40); // Set initial value to 50%
+const pie = document.querySelector(".pie");
+setGaugeValue(pie, value); // Set initial value to 50%
