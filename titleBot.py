@@ -6,19 +6,19 @@ load_dotenv()
 
 API_URL = "https://router.huggingface.co/v1/chat/completions"
 headers = {
-    "Authorization": f"Bearer {os.getenv('HF_TOKEN2')}",
+    "Authorization": f"Bearer {os.getenv('HF_TOKEN')}",
 }
 
 def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
     return response.json()
 
-def summary(newsText):
+def titleGenerator(newsText):
     response = query({
         "messages": [
             {
                 "role": "user",
-                "content": "RETURN JUST SUMMARIZED TEXT OF THE NEWS I WILL PROVIDE. DO NOT WRITE ANYTHING EXCEPT OF SUMMARY. DO NOT SKIP ANYTHING IMPORTANT. TRY TO SKIP INFORMATION NOT RELATED TO TEXT OF THE NEWS. text of the new - " + newsText
+                "content": "Please, just give me just title of the news text. In text may be some additional info not related to the news, ignore it. News text - " + newsText
             }
         ],
         "model": "meta-llama/Llama-3.2-3B-Instruct:hyperbolic"
@@ -27,6 +27,4 @@ def summary(newsText):
         print("Error from API:", response)
         return -1
     return response["choices"][0]["message"]["content"]
-
-
 

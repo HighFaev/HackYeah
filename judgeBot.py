@@ -13,12 +13,12 @@ def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
     return response.json()
 
-def summary(newsText):
+def judgeArticles(newsText, anotherNewsText):
     response = query({
         "messages": [
             {
                 "role": "user",
-                "content": "RETURN JUST SUMMARIZED TEXT OF THE NEWS I WILL PROVIDE. DO NOT WRITE ANYTHING EXCEPT OF SUMMARY. DO NOT SKIP ANYTHING IMPORTANT. TRY TO SKIP INFORMATION NOT RELATED TO TEXT OF THE NEWS. text of the new - " + newsText
+                "content": "I will show you two summarized text of two news. Read them and say if second article agrees, disagrees or unrelated to the second article. IN RESPONSE RETURN ONE WORD - agreed OR disagreed OR unrelated DO NOT CHANGE THE FORM OF THIS WORDS AND DO NOT ADD ANY ADDITIONAL SYMBOLS. FIRST NEW:\n" + newsText + "\nSECOND NEW:\n" + anotherNewsText
             }
         ],
         "model": "meta-llama/Llama-3.2-3B-Instruct:hyperbolic"
@@ -27,6 +27,4 @@ def summary(newsText):
         print("Error from API:", response)
         return -1
     return response["choices"][0]["message"]["content"]
-
-
 
